@@ -1,2 +1,8 @@
 *.class
 *.log
+/.bsp/
+/.idea/
+/beacon/target/
+/project/target/
+/target/
+/project/project/target/

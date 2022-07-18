@@ -22,24 +22,24 @@ a {
 <body style="background-color: #444444; font-family: Minecraftchmc-dBlX; font-size:32px; color: #9D9D97;">
 <table style="background-color:#1D1D21;margin: auto; width: 80.9%">
 <tr>
-<td style="width: 70%; padding:32px;">
+<td style="width: 70%; padding:16px;">
 <div style="font-size: 64px; color: #F9FFFE; text-align: center;">Beacon Color</div><hr />
-    <p>&nbsp;&nbsp;&nbsp;Welcome Gamer!&nbsp;&nbsp;In all your adventures, have you never wondered about the shrines and temples you’ve explored?&nbsp;&nbsp;While using magic, have you pondered its origin or what sustains it?&nbsp;&nbsp;Have you not witnessed evil consumed by fire as light shines down from the heavens?</p>
+    <p>Welcome Gamer!</p>
+    <p>&nbsp;&nbsp;&nbsp;In all your adventures, have you never wondered about the shrines and temples you explored?&nbsp;&nbsp;Have you sought the source of magic?&nbsp;&nbsp;Have you not witnessed evil consumed by fire as light shines down from the heavens?</p>
     <p>&nbsp;&nbsp;&nbsp;These clues have led you here, now go to: craft a beacon of light that reaches unto heaven.  May God see it as a sign of your devotion and bestow mighty boons upon you!</p>
     <p>&nbsp;&nbsp;&nbsp;This app can tell you the fewest number of stained glass blocks needed to tint your beacon to whatsoever color best expresses your faith.</p>
 </td>
-<td id="beaconOutput" rowspan="2" style="background-color: #888888;">&nbsp;</td>
+<td rowspan="2" id="key"></td>
 </tr>
 <tr>
 <td style="padding:32px;">
 <table id="progress" style="padding:16px; background-color: #474F52; color: #F9FFFE; float: left;">
-    <tr><td style="text-align: right;">Status:&nbsp;</td><td>Loading</td></tr>
-    <tr><td style="text-align: right;">Generating Color Sequences:&nbsp;</td><td style="width:64px; text-align: right;"><span id="memoizationProgress">0</span>&nbsp;%</td></tr>
+    <tr><td style="text-align: right;">Sequencing:&nbsp;</td><td style="width:64px; text-align: right;"><span id="memoizationProgress">0</span>&nbsp;%</td></tr>
     <tr><td style="text-align: right;">Indexing:&nbsp;</td><td style="width:64px; text-align: right;"><span id="octreeProgress">0</span>&nbsp;%</td></tr>
     <tr><td colspan="2" style="text-align: center;"><hr /></span></td></tr>
     <tr><td colspan="2" style="text-align: center;">Acknowledgements:</span></td></tr>
     <tr><td colspan="2" style="text-align: center; font-size: 24px;">
-        Conceived by <a href="https://github.com/s5bug">s5bug</a><br />
+        Envisioned by <a href="https://github.com/s5bug">s5bug</a><br />
         Written in <a href="https://www.scala-js.org/">Scala.js</a><br />
         Font by <a href="https://www.fontspace.com/roboto-remix-font-f26577">Heaven Castrato</a><br />
         Color Picker by <a href="https://github.com/ivanvmat/color-picker">Ivan Matveev</a><br />
@@ -49,9 +49,6 @@ a {
 </table>
 <div style="padding: 0px 0px 0px 32px; float: left;">
 <div id="picker"></div>
-</div>
-<div style="padding: 0px 0px 0px 32px; float: left;">
-<div id="key"></div>
 </div>
 </td>
 </tr>

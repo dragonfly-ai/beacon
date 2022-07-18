@@ -26,8 +26,7 @@ object Main extends App {
   val memoizationProgress = dom.window.document.getElementById("memoizationProgress")
   val octreeProgress = dom.window.document.getElementById("octreeProgress")
 
-  val beaconOutput = dom.window.document.getElementById("beaconOutput")
-  val keyOutput = dom.window.document.getElementById("key")
+  val beaconOutput = dom.window.document.getElementById("key")
 
   val height = 10
 
@@ -91,40 +90,36 @@ object Main extends App {
       for (cn <- beaconOutput.childNodes) {
         beaconOutput.removeChild(cn)
       }
-      for (cn <- keyOutput.childNodes) {
-        keyOutput.removeChild(cn)
-      }
-      keyOutput.appendChild(
-        table(
-          tr(
-            td(
-              if (reachable) "✅ " else "❌",
-              br(),
-              f"${100.0 * ARGB32.similarity(tc, result)}%.1f%%",
-              br(),
-              span(s"N = ${sequence.size}")
-            ),
-            td(
-              sequence.map(
-                c => div(
-                  span(style := colorDotScale(c))(br()),
-                  raw("&nbsp;"),
-                  img(src := s"./image/mcdye/${c.html().substring(1)}.png")
-                )
-              )
-            ),
-            td(raw("&nbsp;"))
-          )
-        ).render
-      )
+
       beaconOutput.appendChild(
-        table(
+        table(style := "padding: 16px;")(
+          tr(
+            td(style := "padding: 8px;", colspan := "5")(
+              if (reachable) {
+                "Exact match: ✅"
+              } else {
+                "Match Similarity: " + f"${100.0 * ARGB32.similarity(tc, result)}%.1f%%"
+              },
+              br(),
+              span(s"Minimum Number of Stained Glass Blocks: ${sequence.size}")
+            )
+          ),
+          tr(
+            td("Intended Color"),
+            td(raw("&nbsp;")),
+            td("Best Match"),
+            td(raw("&nbsp;")),
+            td("Stained Glass Sequence")
+          ),
           tr(
             td(style := s"background-color: ${tc.html()}; border: 1px solid; width: 64px;")((0 until height).map(_ => br())),
+            td(raw("&nbsp;")),
             td(style := s"background-color: ${result.html()}; border: 1px solid; width: 64px;")(
               raw("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"),
               (0 until height - sequence.size).map(_ => br())
-            )
+            ),
+            td(raw("&nbsp;")),
+            td( sequence.map( c => div(span(style := colorDotScale(c))(raw("&nbsp;"), img(src := s"./image/mcdye/${c.html().substring(1)}.png")), br()) ) )
           ),
         ).render
       )

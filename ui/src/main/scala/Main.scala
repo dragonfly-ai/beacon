@@ -14,13 +14,24 @@ import scala.scalajs.js.timers.{SetTimeoutHandle, setTimeout}
 
 object Main extends App {
 
+  object DOMGlobals {
+    @js.native
+    @JSGlobal("showPicker")
+    def showPicker(): Unit = js.native
+  }
+
   var handle:SetTimeoutHandle = null
 
   val body = dom.window.document.body
   val memoizationProgress = dom.window.document.getElementById("memoizationProgress")
   val octreeProgress = dom.window.document.getElementById("octreeProgress")
 
-  val height = 25
+  val beaconOutput = dom.window.document.getElementById("beaconOutput")
+  val keyOutput = dom.window.document.getElementById("key")
+
+  val height = 10
+
+  var awakenCount:Int = 0
 
   object worker extends Worker("./js/worker.js") {
     this.onmessage = (msg:dom.MessageEvent) => {
@@ -32,8 +43,11 @@ object Main extends App {
             case _ => println(s"Unknown Array Message Payload: ${arr(0)}")
           }
         case s:String =>
-          if (s.equals("COMPLETED")) handle = nextColor(0)
-          else println(s"Main received: $s")
+          if (s.equals("COMPLETED")) {
+            DOMGlobals.showPicker()
+            //document.getElementById("picker").removeAttribute("style")
+            keepAwake()
+          } else println(s"Main received: $s")
         case _ => println(s"Main received: ${msg.data}")
       }
     }
@@ -41,57 +55,80 @@ object Main extends App {
 
   worker.postMessage("Let's go!")
 
-  def nextColor(wait:Int = 5000): SetTimeoutHandle = setTimeout(wait) {
-    worker.postMessage(ARGB32.random().argb)
-    handle = nextColor()
+  var qc:Int = ARGB32(255, 255, 255).argb
+
+  def keepAwake(wait:Int = 1000): SetTimeoutHandle = setTimeout(wait) {
+    worker.postMessage(qc)
+    handle = keepAwake()
+  }
+
+  @JSExportTopLevel("searchColor")
+  def searchColor(r:Int, g:Int, b:Int):Unit = {
+    qc = ARGB32(r, g, b).argb
   }
 
   private def updateProgress(flag:String, p:Double):Unit = if (flag.equals("MEMOIZATION")){
-    memoizationProgress.innerHTML = f"${100.0 * p}%.3f%%"
+    memoizationProgress.innerHTML = f"${100.0 * p}%.3f"
   } else {
-    octreeProgress.innerHTML = f"${100.0 * p}%.3f%%"
+    octreeProgress.innerHTML = f"${100.0 * p}%.3f"
   }
 
   private def colorDotScale(c:ARGB32):String = {
     s"display: inline-block; background-color: ${c.html()}; border: 1px solid var(--theme-border-color); border-radius: 50%; width: 1em; height: 1em; vertical-align: text-top;"
   }
 
+  var lastTarget:Int = ARGB32(128, 128, 128).argb
+
   private def appendBeacon(sgs:ResultsMessage):Unit = {
     val tc:ARGB32 = sgs.target
-    val result:ARGB32 = sgs.nearestMatch.approximateColor
-    val sequence:List[ARGB32] = sgs.nearestMatch.sequence
-    val reachable:Boolean = tc.argb == result.argb
+    println(s"tc.argb == lastTarget ? ${tc.argb == lastTarget}")
+    if (lastTarget != tc.argb) {
+      lastTarget = tc.argb
+      val result: ARGB32 = sgs.nearestMatch.approximateColor
+      val sequence: List[ARGB32] = sgs.nearestMatch.sequence
+      val reachable: Boolean = tc.argb == result.argb
 
-    body.appendChild(
-      table(
-        tr(
-          td(style := s"background-color: ${tc.html()}; border: 1px solid; width: 64px;")((0 until height).map(_ => br())),
-          td(style := s"background-color: ${result.html()}; border: 1px solid; width: 64px;")(
-            raw("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"),
-            (0 until height - sequence.size).map(_ => br())
-          )
-        ),
-        tr(
-          td(
-            if (reachable) "✅ " else "❌",
-            br(),
-            f"${100.0 * ARGB32.similarity(tc, result)}%.1f%%",
-            br(),
-            span(s"N = ${sequence.size}")
-          ),
-          td(
-            sequence.map(
-              c => div(
-                span(style := colorDotScale(c))(br()),
-                raw("&nbsp;"),
-                img(src := s"./image/mcdye/${c.html().substring(1)}.png")
+      for (cn <- beaconOutput.childNodes) {
+        beaconOutput.removeChild(cn)
+      }
+      for (cn <- keyOutput.childNodes) {
+        keyOutput.removeChild(cn)
+      }
+      keyOutput.appendChild(
+        table(
+          tr(
+            td(
+              if (reachable) "✅ " else "❌",
+              br(),
+              f"${100.0 * ARGB32.similarity(tc, result)}%.1f%%",
+              br(),
+              span(s"N = ${sequence.size}")
+            ),
+            td(
+              sequence.map(
+                c => div(
+                  span(style := colorDotScale(c))(br()),
+                  raw("&nbsp;"),
+                  img(src := s"./image/mcdye/${c.html().substring(1)}.png")
+                )
               )
+            ),
+            td(raw("&nbsp;"))
+          )
+        ).render
+      )
+      beaconOutput.appendChild(
+        table(
+          tr(
+            td(style := s"background-color: ${tc.html()}; border: 1px solid; width: 64px;")((0 until height).map(_ => br())),
+            td(style := s"background-color: ${result.html()}; border: 1px solid; width: 64px;")(
+              raw("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"),
+              (0 until height - sequence.size).map(_ => br())
             )
           ),
-          td(raw("&nbsp;"))
-        )
-      ).render
-    )
+        ).render
+      )
+    }
   }
 
 }

@@ -2,12 +2,75 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>beacon</title>
-
+    <title>Beacon Color</title>
+<style>
+@font-face {
+  font-family: 'Minecraftchmc-dBlX';
+  src: url('./font/Minecraftchmc-dBlX.eot');
+  src: url('./font/Minecraftchmc-dBlX.eot?#iefix') format('embedded-opentype'),
+       url('./font/Minecraftchmc-dBlX.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+a {
+  color: #F9FFFE;
+}
+</style>
+<link rel="stylesheet" type="text/css" href="./css/color-picker.css" media="all">
+<script type="text/javascript" src="./js/color-picker.js"></script>
 </head>
-<body style="background-color: #888888">
-<div>Generating Color Sequences: <span id="memoizationProgress"></span></div>
-<div>Populating L*a*b* Octree: <span id="octreeProgress"></span></div>
+<body style="background-color: #444444; font-family: Minecraftchmc-dBlX; font-size:32px; color: #9D9D97;">
+<table style="background-color:#1D1D21;margin: auto; width: 80.9%">
+<tr>
+<td style="width: 70%; padding:32px;">
+<div style="font-size: 64px; color: #F9FFFE; text-align: center;">Beacon Color</div><hr />
+    <p>&nbsp;&nbsp;&nbsp;Welcome Gamer!&nbsp;&nbsp;In all your adventures, have you never wondered about the shrines and temples you’ve explored?&nbsp;&nbsp;While using magic, have you pondered its origin or what sustains it?&nbsp;&nbsp;Have you not witnessed evil consumed by fire as light shines down from the heavens?</p>
+    <p>&nbsp;&nbsp;&nbsp;These clues have led you here, now go to: craft a beacon of light that reaches unto heaven.  May God see it as a sign of your devotion and bestow mighty boons upon you!</p>
+    <p>&nbsp;&nbsp;&nbsp;This app can tell you the fewest number of stained glass blocks needed to tint your beacon to whatsoever color best expresses your faith.</p>
+</td>
+<td id="beaconOutput" rowspan="2" style="background-color: #888888;">&nbsp;</td>
+</tr>
+<tr>
+<td style="padding:32px;">
+<table id="progress" style="padding:16px; background-color: #474F52; color: #F9FFFE; float: left;">
+    <tr><td style="text-align: right;">Status:&nbsp;</td><td>Loading</td></tr>
+    <tr><td style="text-align: right;">Generating Color Sequences:&nbsp;</td><td style="width:64px; text-align: right;"><span id="memoizationProgress">0</span>&nbsp;%</td></tr>
+    <tr><td style="text-align: right;">Indexing:&nbsp;</td><td style="width:64px; text-align: right;"><span id="octreeProgress">0</span>&nbsp;%</td></tr>
+    <tr><td colspan="2" style="text-align: center;"><hr /></span></td></tr>
+    <tr><td colspan="2" style="text-align: center;">Acknowledgements:</span></td></tr>
+    <tr><td colspan="2" style="text-align: center; font-size: 24px;">
+        Conceived by <a href="https://github.com/s5bug">s5bug</a><br />
+        Written in <a href="https://www.scala-js.org/">Scala.js</a><br />
+        Font by <a href="https://www.fontspace.com/roboto-remix-font-f26577">Heaven Castrato</a><br />
+        Color Picker by <a href="https://github.com/ivanvmat/color-picker">Ivan Matveev</a><br />
+        Powered by <a href="https://github.com/dragonfly-ai/bitfrost">Bitfrost</a><br />
+        <a href="https://github.com/dragonfly-ai/beacon">Source Code and Technical Information</a><br />
+    </td></tr>
+</table>
+<div style="padding: 0px 0px 0px 32px; float: left;">
+<div id="picker"></div>
+</div>
+<div style="padding: 0px 0px 0px 32px; float: left;">
+<div id="key"></div>
+</div>
+</td>
+</tr>
+</table>
 <script src="./js/ui.js"></script>
+<script type="text/javascript">
+var picker = null;
+function showPicker() {
+  picker = new ColorPickerControl({
+    "container": document.getElementById("picker"),
+    "theme": "dark",
+    "use_alpha": false
+  });
+  picker.on('change', (color) => {
+    var rgba = color.toRGBa();
+    console.log(rgba);
+    searchColor(parseInt(rgba[0]), parseInt(rgba[1]), parseInt(rgba[2]));
+  });
+}
+</script>
 </body>
 </html>

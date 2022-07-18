@@ -30,6 +30,7 @@ object Main extends App {
     log(s"Received ${msg.data}")
     msg.data match {
       case c:Int => makeBeacon(ARGB32(c))
+      //case "AWAKEN" => postMessage("I'm awake!")
       case _ => log(s"unknown message ${msg.data}")
     }
   }
@@ -85,7 +86,10 @@ object Main extends App {
 
   var handle:SetTimeoutHandle = null
 
+  var stopHerds:Boolean = false
+
   def populateOctree(): Unit = {
+    stopHerds = true
     n = 0
     for ((c: ARGB32, path: List[ARGB32]) <- memoization) {
       n += 1
@@ -97,10 +101,10 @@ object Main extends App {
     postMessage(s"COMPLETED")
   }
 
-  def nextPathBlock(): SetTimeoutHandle = setTimeout(10) {
+  def nextPathBlock(): Unit = {
     if (completed) {
       postMessage(ARRAY[js.Any]("STATUS", "MEMOIZATION", 1.0))
-      populateOctree()
+      if (!stopHerds) populateOctree()
     } else {
       var bi: Int = 0
       while (bfsQ.nonEmpty && bi < blockSize) {
@@ -125,11 +129,11 @@ object Main extends App {
       if (bfsQ.isEmpty) completed = true
       else postMessage(ARRAY[js.Any]("STATUS", "MEMOIZATION", progress))
 
-      handle = nextPathBlock()
+      handle = setTimeout(10) { nextPathBlock() }
     }
   }
 
-  handle = nextPathBlock()
+  handle = setTimeout(10) { nextPathBlock() }
 
   def makeBeacon(target: ARGB32): Unit = {
     if (completed) {
@@ -137,7 +141,7 @@ object Main extends App {
         (memoization.get(target) match {
           case Some(path: List[ARGB32]) => ResultsMessage(target, StainedGlassSequence(target, path))
           case None =>
-            log(s"memoization.size = ${memoization.size}")
+            //log(s"memoization.size = ${memoization.size}")
             octree.nearestNeighbor(Lab.toVector3(Lab.fromXYZ(target.toXYZ))) match {
               case Some((nn: Vector3, path: List[ARGB32])) => ResultsMessage(target, StainedGlassSequence(ARGB32.fromXYZ(Lab.fromVector3(nn).toXYZ), path))
               case _ => throw Exception("empty octree or octree bug?")

@@ -19,39 +19,96 @@ a {
 <link rel="stylesheet" type="text/css" href="./css/color-picker.css" media="all">
 <script type="text/javascript" src="./js/color-picker.js"></script>
 </head>
-<body style="background-color: #444444; font-family: Minecraftchmc-dBlX; font-size:32px; color: #9D9D97;">
-<table style="background-color:#1D1D21;margin: auto; width: 80.9%">
+<body style="background-color: #1D1D21; font-family: Minecraftchmc-dBlX; font-size:32px; color: #DDDDDD;">
+<table style="background-color:#444444; margin: auto; width: 80.9%; border-radius: 8px;">
 <tr>
-<td style="width: 70%; padding:16px;">
-<div style="font-size: 64px; color: #F9FFFE; text-align: center;">Beacon Color</div><hr />
-    <p>Welcome Gamer!</p>
-    <p>&nbsp;&nbsp;&nbsp;In all your adventures, have you never wondered about the shrines and temples you explored?&nbsp;&nbsp;Have you sought the source of magic?&nbsp;&nbsp;Have you not witnessed evil consumed by fire as light shines down from the heavens?</p>
+    <td colspan="3" style="background-color:#444444;">&nbsp;
+        <div style="font-size: 96px; opacity: 0.81; background-color: #222222; border-style: solid; margin: auto; text-align: center; width: 476px; border-radius: 8px;"><span style="color: #B02E26;">B</span><span style="color: #5E7C16;">e</span><span style="color: #F9801D;">a</span><span style="color: #3C44AA;">c</span><span style="color: #FED83D;">o</span><span style="color: #8932B8;">n</span>&nbsp;<span style="color: #169C9C;">C</span><span style="color: #F38BAA;">o</span><span style="color: #80C71F;">l</span><span style="color: #3AB3DA;">o</span><span style="color: #C74EBD;">r</span></div>
+    </td>
+</tr>
+<tr>
+<td style="width: 70%; padding:32px; font-size: 32px; vertical-align: top;">
+    Welcome Gamer,
+    <p>&nbsp;&nbsp;&nbsp;In all your adventures, have you not wondered who the ancients worshipped from the shrines and temples you explore?&nbsp;&nbsp;Have you never sought the source and sustenance of magic?&nbsp;&nbsp;How often have you witnessed evil consumed by fire as light burst forth from the heavens?</p>
     <p>&nbsp;&nbsp;&nbsp;These clues have led you here, now go to: craft a beacon of light that reaches unto heaven.  May God see it as a sign of your devotion and bestow mighty boons upon you!</p>
     <p>&nbsp;&nbsp;&nbsp;This app can tell you the fewest number of stained glass blocks needed to tint your beacon to whatsoever color best expresses your faith.</p>
 </td>
-<td rowspan="2" id="key"></td>
-</tr>
-<tr>
-<td style="padding:32px;">
-<table id="progress" style="padding:16px; background-color: #474F52; color: #F9FFFE; float: left;">
-    <tr><td style="text-align: right;">Sequencing:&nbsp;</td><td style="width:64px; text-align: right;"><span id="memoizationProgress">0</span>&nbsp;%</td></tr>
-    <tr><td style="text-align: right;">Indexing:&nbsp;</td><td style="width:64px; text-align: right;"><span id="octreeProgress">0</span>&nbsp;%</td></tr>
-    <tr><td colspan="2" style="text-align: center;"><hr /></span></td></tr>
-    <tr><td colspan="2" style="text-align: center;">Acknowledgements:</span></td></tr>
-    <tr><td colspan="2" style="text-align: center; font-size: 24px;">
-        Envisioned by <a href="https://github.com/s5bug">s5bug</a><br />
-        Written in <a href="https://www.scala-js.org/">Scala.js</a><br />
-        Font by <a href="https://www.fontspace.com/roboto-remix-font-f26577">Heaven Castrato</a><br />
-        Color Picker by <a href="https://github.com/ivanvmat/color-picker">Ivan Matveev</a><br />
-        Powered by <a href="https://github.com/dragonfly-ai/bitfrost">Bitfrost</a><br />
-        <a href="https://github.com/dragonfly-ai/beacon">Source Code and Technical Information</a><br />
-    </td></tr>
+<td id="picker" style="float: right; padding:32px; "></td>
+<td rowspan="2" style="vertical-align: top; font-size: 24px; padding:32px; " id="key">
+<table id="progress" style="padding:16px; background-color: #222222; color: #F9FFFE; margin: auto; border-radius: 8px;">
+<tr><td style="text-align: right;">Sequencing:&nbsp;</td><td style="width:64px; text-align: right;"><span id="memoizationProgress" style="color: #B02E26;">0</span>&nbsp;%</td></tr>
+<tr><td style="text-align: right;">Indexing:&nbsp;</td><td style="width:64px; text-align: right;"><span id="octreeProgress" style="color: #B02E26;">0</span>&nbsp;%</td></tr>
 </table>
-<div style="padding: 0px 0px 0px 32px; float: left;">
-<div id="picker"></div>
-</div>
 </td>
 </tr>
+<tr><td colspan="3" style="text-align: center; font-size: 18px;">
+    <div style="padding:32px; margin: auto; text-align: center; opacity: 0.25; position: relative; top:0px; font-size: 10px; width: 50%; height: 250px;">
+        <img src="image/mcdye/c74ebd.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/c74ebd.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/c74ebd.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/c74ebd.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/c74ebd.png"  />&nbsp;&nbsp;
+        <img src="image/mcdye/c74ebd.png"  />
+        <br />
+        <img src="image/mcdye/c74ebd.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/8932b8.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/8932b8.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/8932b8.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/8932b8.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/8932b8.png"  />&nbsp;&nbsp;
+        <img src="image/mcdye/8932b8.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/8932b8.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/c74ebd.png"  />
+        <br />
+        <img src="image/mcdye/c74ebd.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/8932b8.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3c44aa.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3c44aa.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3c44aa.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3c44aa.png"  />&nbsp;&nbsp;<img src="image/mcdye/3c44aa.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3c44aa.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3c44aa.png"  />&nbsp;&nbsp;
+        <img src="image/mcdye/3c44aa.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/8932b8.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/c74ebd.png"  />
+        <br />
+        <img src="image/mcdye/c74ebd.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/8932b8.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3c44aa.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/169c9c.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/169c9c.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/169c9c.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/169c9c.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/169c9c.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/169c9c.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/169c9c.png"  />&nbsp;&nbsp;
+        <img src="image/mcdye/169c9c.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3c44aa.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/8932b8.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/c74ebd.png"  />
+        <br />
+        <img src="image/mcdye/c74ebd.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/8932b8.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3c44aa.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/169c9c.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3ab3da.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3ab3da.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3ab3da.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3ab3da.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3ab3da.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3ab3da.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3ab3da.png"  />&nbsp;&nbsp;
+        <img src="image/mcdye/3ab3da.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/169c9c.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3c44aa.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/8932b8.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/c74ebd.png"  />
+        <br />
+        <img src="image/mcdye/c74ebd.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/8932b8.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3c44aa.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/169c9c.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3ab3da.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/80c71f.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/80c71f.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/80c71f.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/80c71f.png"  />&nbsp;&nbsp;<img src="image/mcdye/80c71f.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/80c71f.png"  />&nbsp;&nbsp;
+        <img src="image/mcdye/80c71f.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/80c71f.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3ab3da.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/169c9c.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3c44aa.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/8932b8.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/c74ebd.png"  />
+        <br />
+        <img src="image/mcdye/c74ebd.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/8932b8.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3c44aa.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/169c9c.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3ab3da.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/80c71f.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/fed83d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/fed83d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/fed83d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/fed83d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/fed83d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/fed83d.png"  />&nbsp;&nbsp;
+        <img src="image/mcdye/fed83d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/80c71f.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3ab3da.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/169c9c.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3c44aa.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/8932b8.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/c74ebd.png"  />
+        <br />
+        <img src="image/mcdye/c74ebd.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/8932b8.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3c44aa.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/169c9c.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3ab3da.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/80c71f.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/fed83d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/f9801d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/f9801d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/f9801d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/f9801d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/f9801d.png"  />&nbsp;&nbsp;
+        <img src="image/mcdye/f9801d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/fed83d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/80c71f.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3ab3da.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/169c9c.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3c44aa.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/8932b8.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/c74ebd.png"  />
+        <br />
+        <img src="image/mcdye/c74ebd.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/8932b8.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3c44aa.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/169c9c.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3ab3da.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/80c71f.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/fed83d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/f9801d.png"  />&nbsp;&nbsp;&nbsp;&nbsp;<img src="image/mcdye/b02e26.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/b02e26.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/b02e26.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/b02e26.png"  />&nbsp;&nbsp;
+        <img src="image/mcdye/b02e26.png"  />&nbsp;&nbsp;&nbsp;&nbsp;<img src="image/mcdye/f9801d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/fed83d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/80c71f.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3ab3da.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/169c9c.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3c44aa.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/8932b8.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/c74ebd.png"  />
+        <br />
+        <img src="image/mcdye/c74ebd.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/8932b8.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3c44aa.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/169c9c.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3ab3da.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/80c71f.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/fed83d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/f9801d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/b02e26.png"  />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <img src="image/mcdye/b02e26.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/f9801d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/fed83d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/80c71f.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3ab3da.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/169c9c.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3c44aa.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/8932b8.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/c74ebd.png"  />
+        <br />
+        <img src="image/mcdye/c74ebd.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/8932b8.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3c44aa.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/169c9c.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3ab3da.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/80c71f.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/fed83d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/f9801d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/b02e26.png"  />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <img src="image/mcdye/b02e26.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/f9801d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/fed83d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/80c71f.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3ab3da.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/169c9c.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3c44aa.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/8932b8.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/c74ebd.png"  />
+        <br />
+        <img src="image/mcdye/c74ebd.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/8932b8.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3c44aa.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/169c9c.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3ab3da.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/80c71f.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/fed83d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/f9801d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/b02e26.png"  />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <img src="image/mcdye/b02e26.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/f9801d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/fed83d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/80c71f.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3ab3da.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/169c9c.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3c44aa.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/8932b8.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/c74ebd.png"  />
+        <br />
+        <img src="image/mcdye/c74ebd.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/8932b8.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3c44aa.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/169c9c.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3ab3da.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/80c71f.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/fed83d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/f9801d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/b02e26.png"  />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <img src="image/mcdye/b02e26.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/f9801d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/fed83d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/80c71f.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3ab3da.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/169c9c.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3c44aa.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/8932b8.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/c74ebd.png"  />
+        <br />
+        <img src="image/mcdye/c74ebd.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/8932b8.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3c44aa.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/169c9c.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3ab3da.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/80c71f.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/fed83d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/f9801d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/b02e26.png"  />&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <img src="image/mcdye/b02e26.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/f9801d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/fed83d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/80c71f.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3ab3da.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/169c9c.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3c44aa.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/8932b8.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/c74ebd.png"  />
+        <br />
+        <img src="image/mcdye/c74ebd.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/8932b8.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3c44aa.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/169c9c.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3ab3da.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/80c71f.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/fed83d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/f9801d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/b02e26.png"  />&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <img src="image/mcdye/b02e26.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/f9801d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/fed83d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/80c71f.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3ab3da.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/169c9c.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3c44aa.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/8932b8.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/c74ebd.png"  />
+        <br />
+        <img src="image/mcdye/c74ebd.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/8932b8.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3c44aa.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/169c9c.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3ab3da.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/80c71f.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/fed83d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/f9801d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/b02e26.png"  />&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <img src="image/mcdye/b02e26.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/f9801d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/fed83d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/80c71f.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3ab3da.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/169c9c.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3c44aa.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/8932b8.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/c74ebd.png"  />
+    </div>
+    <div style="padding:32px; margin: auto; text-align: center; position: relative; top:-190px; font-size: 22px; height: 86px;">
+    <span style="font-size:64px;">Acknowledgements:</span><br />
+    &nbsp;<img src="image/mcdye/80c71f.png" />&nbsp;
+    Envisioned by <a href="https://github.com/s5bug">s5bug</a>&nbsp;<img src="image/mcdye/b02e26.png" />&nbsp;
+    Written in <a href="https://www.scala-js.org/">Scala.js</a>&nbsp;<img src="image/mcdye/5e7c16.png" />&nbsp;
+    Font by <a href="https://www.fontspace.com/roboto-remix-font-f26577">Heaven Castrato</a>&nbsp;<img src="image/mcdye/835432.png" />&nbsp;
+    Color Picker by <a href="https://github.com/ivanvmat/color-picker">Ivan Matveev</a>&nbsp;<img src="image/mcdye/3c44aa.png" />&nbsp;
+    Powered by <a href="https://github.com/dragonfly-ai/bitfrost">Bitfrost</a>&nbsp;<img src="image/mcdye/fed83d.png" />&nbsp;
+    <a href="https://github.com/dragonfly-ai/beacon">Source Code and Technical Information</a>&nbsp;<img src="image/mcdye/f9801d.png" />&nbsp;
+    </div>
+</td></tr>
 </table>
 <script src="./js/ui.js"></script>
 <script type="text/javascript">
@@ -66,6 +123,7 @@ function showPicker() {
     var rgba = color.toRGBa();
     console.log(rgba);
     searchColor(parseInt(rgba[0]), parseInt(rgba[1]), parseInt(rgba[2]));
+    document.getElementById("key").replaceChildren();
   });
 }
 </script>

@@ -66,10 +66,14 @@ object Main extends App {
     qc = ARGB32(r, g, b).argb
   }
 
+  val zeroProgress:ARGB32 = ARGB32(0xFFB02E26)
+  val finishedProgress:ARGB32 = ARGB32(0xFF80C71F)
   private def updateProgress(flag:String, p:Double):Unit = if (flag.equals("MEMOIZATION")){
-    memoizationProgress.innerHTML = f"${100.0 * p}%.3f"
+    memoizationProgress.innerHTML = f"${100.0 * p}%.2f"
+    memoizationProgress.setAttribute("style", s"color: ${ARGB32.weightedAverage(zeroProgress, 1.0 - p, finishedProgress, p).html()}")
   } else {
-    octreeProgress.innerHTML = f"${100.0 * p}%.3f"
+    octreeProgress.innerHTML = f"${100.0 * p}%.2f"
+    octreeProgress.setAttribute("style", s"color: ${ARGB32.weightedAverage(zeroProgress, 1.0 - p, finishedProgress, p).html()}")
   }
 
   private def colorDotScale(c:ARGB32):String = {
@@ -105,9 +109,9 @@ object Main extends App {
             )
           ),
           tr(
-            td("Intended Color"),
+            td("Target"),
             td(raw("&nbsp;")),
-            td("Best Match"),
+            td("Closest"),
             td(raw("&nbsp;")),
             td("Stained Glass Sequence")
           ),

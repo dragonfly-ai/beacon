@@ -1263,6 +1263,7 @@ function ColorPickerControl(cfg) {
             // initialize document mouseup/touchend handler
             document_mouseup_handler = function(e){
                 // set is_mouse_down flag to false
+                executeQuery();
                 is_mouse_down = false;
             };
             // add mouseup/touchend event listeners to document

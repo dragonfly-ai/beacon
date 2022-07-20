@@ -20,13 +20,15 @@ object Main extends App {
     def showPicker(): Unit = js.native
   }
 
-  var handle:SetTimeoutHandle = null
+  var keepAliveHandle:SetTimeoutHandle = null
+  var colorQueryHandle:SetTimeoutHandle = null
 
   val body = dom.window.document.body
   val memoizationProgress = dom.window.document.getElementById("memoizationProgress")
   val octreeProgress = dom.window.document.getElementById("octreeProgress")
 
   val beaconOutput = dom.window.document.getElementById("key")
+  val sample = dom.window.document.getElementById("sample")
 
   val height = 10
 
@@ -54,16 +56,29 @@ object Main extends App {
 
   worker.postMessage("Let's go!")
 
-  var qc:Int = ARGB32(255, 255, 255).argb
+  var last:Long = System.currentTimeMillis()
 
-  def keepAwake(wait:Int = 1000): SetTimeoutHandle = setTimeout(wait) {
-    worker.postMessage(qc)
-    handle = keepAwake()
+  var qc:Int = 0
+  var lqc:Int = 0
+
+  def keepAwake(wait:Int = 3000): SetTimeoutHandle = setTimeout(wait) {
+    worker.postMessage("AWAKEN")
+    keepAliveHandle = keepAwake()
+  }
+
+  @JSExportTopLevel("executeQuery")
+  def executeQuery():Unit = {
+    val now:Long = System.currentTimeMillis()
+    if (now - last > 100) {
+      colorQueryHandle = setTimeout(100) { worker.postMessage(qc) }
+    }
   }
 
   @JSExportTopLevel("searchColor")
   def searchColor(r:Int, g:Int, b:Int):Unit = {
-    qc = ARGB32(r, g, b).argb
+    val temp:ARGB32 = ARGB32(r, g, b)
+    qc = temp.argb
+    sample.setAttribute("style", s"width: 180px; height: 120px; border-radius: 8px; background-color: ${temp.html()};");
   }
 
   val zeroProgress:ARGB32 = ARGB32(0xFFB02E26)
@@ -84,7 +99,6 @@ object Main extends App {
 
   private def appendBeacon(sgs:ResultsMessage):Unit = {
     val tc:ARGB32 = sgs.target
-    println(s"tc.argb == lastTarget ? ${tc.argb == lastTarget}")
     if (lastTarget != tc.argb) {
       lastTarget = tc.argb
       val result: ARGB32 = sgs.nearestMatch.approximateColor
@@ -96,34 +110,30 @@ object Main extends App {
       }
 
       beaconOutput.appendChild(
-        table(style := "padding: 16px;")(
+        table(
           tr(
             td(style := "padding: 8px;", colspan := "5")(
-              if (reachable) {
-                "Exact match: ✅"
-              } else {
-                "Match Similarity: " + f"${100.0 * ARGB32.similarity(tc, result)}%.1f%%"
-              },
+              span(style := "font-size: 28px;")("Results:"),
               br(),
-              span(s"Minimum Number of Stained Glass Blocks: ${sequence.size}")
+              if (reachable) {
+                "✅ Exact Match"
+              } else {
+                span("❌ Exact Match", br(), s"Similarity: " + f"${100.0 * ARGB32.similarity(tc, result)}%.1f%%")
+              }
             )
           ),
           tr(
-            td("Target"),
-            td(raw("&nbsp;")),
             td("Closest"),
             td(raw("&nbsp;")),
-            td("Stained Glass Sequence")
+            td(s"${sequence.size} Block Sequence")
           ),
           tr(
-            td(style := s"background-color: ${tc.html()}; border: 1px solid; width: 64px;")((0 until height).map(_ => br())),
-            td(raw("&nbsp;")),
             td(style := s"background-color: ${result.html()}; border: 1px solid; width: 64px;")(
               raw("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"),
-              (0 until height - sequence.size).map(_ => br())
+              (0 until Math.max(10, height - sequence.size)).map(_ => br())
             ),
             td(raw("&nbsp;")),
-            td( sequence.map( c => div(span(style := colorDotScale(c))(raw("&nbsp;"), img(src := s"./image/mcdye/${c.html().substring(1)}.png")), br()) ) )
+            td(style := "margin: auto; text-align: center; border-style: solid; border-width: 1px;")( sequence.map( c => div(span(style := colorDotScale(c))(raw("&nbsp;"), img(src := s"./image/mcdye/${c.html().substring(1)}.png")), br()) ) )
           ),
         ).render
       )

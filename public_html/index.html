@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Beacon Color</title>
@@ -27,14 +27,18 @@ a {
     </td>
 </tr>
 <tr>
-<td style="width: 70%; padding:32px; font-size: 32px; vertical-align: top;">
+<td style="width: 60%;  padding:32px; font-size: 32px; vertical-align: top;">
     Welcome Gamer,
-    <p>&nbsp;&nbsp;&nbsp;In all your adventures, have you not wondered who the ancients worshipped from the shrines and temples you explore?&nbsp;&nbsp;Have you never sought the source and sustenance of magic?&nbsp;&nbsp;How often have you witnessed evil consumed by fire as light burst forth from the heavens?</p>
+    <p>&nbsp;&nbsp;&nbsp;In all your adventures, have you not pondered the source and sustenance of magic?&nbsp;&nbsp;Have you never wondered who the ancients worshipped from the shrines and temples you explored?&nbsp;&nbsp;Have you not witnessed evil consumed by fire as light burst forth from the heavens?</p>
     <p>&nbsp;&nbsp;&nbsp;These clues have led you here, now go to: craft a beacon of light that reaches unto heaven.  May God see it as a sign of your devotion and bestow mighty boons upon you!</p>
     <p>&nbsp;&nbsp;&nbsp;This app can tell you the fewest number of stained glass blocks needed to tint your beacon to whatsoever color best expresses your faith.</p>
 </td>
-<td id="picker" style="float: right; padding:32px; "></td>
-<td rowspan="2" style="vertical-align: top; font-size: 24px; padding:32px; " id="key">
+<td style="width: 200px; padding: 44px 0px 0px 0px; text-align: middle; margin: auto; vertical-align: top;">
+    <div id="picker"></div><br />
+    <div id="sampleLabel" style="font-size:24px;"></div>
+    <div id="sample"></div>
+</td>
+<td rowspan="2" style="vertical-align: top; font-size: 24px; padding:44px; " id="key">
 <table id="progress" style="padding:16px; background-color: #222222; color: #F9FFFE; margin: auto; border-radius: 8px;">
 <tr><td style="text-align: right;">Sequencing:&nbsp;</td><td style="width:64px; text-align: right;"><span id="memoizationProgress" style="color: #B02E26;">0</span>&nbsp;%</td></tr>
 <tr><td style="text-align: right;">Indexing:&nbsp;</td><td style="width:64px; text-align: right;"><span id="octreeProgress" style="color: #B02E26;">0</span>&nbsp;%</td></tr>
@@ -42,7 +46,7 @@ a {
 </td>
 </tr>
 <tr><td colspan="3" style="text-align: center; font-size: 18px;">
-    <div style="padding:32px; margin: auto; text-align: center; opacity: 0.25; position: relative; top:0px; font-size: 10px; width: 50%; height: 250px;">
+    <div style="padding:32px; margin: auto; text-align: center; opacity: 0.33; position: relative; top:0px; font-size: 10px; width: 50%; height: 250px;">
         <img src="image/mcdye/c74ebd.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/c74ebd.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/c74ebd.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/c74ebd.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/c74ebd.png"  />&nbsp;&nbsp;
         <img src="image/mcdye/c74ebd.png"  />
         <br />
@@ -98,8 +102,9 @@ a {
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <img src="image/mcdye/b02e26.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/f9801d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/fed83d.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/80c71f.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3ab3da.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/169c9c.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/3c44aa.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/8932b8.png"  />&nbsp;&nbsp;&nbsp;<img src="image/mcdye/c74ebd.png"  />
     </div>
-    <div style="padding:32px; margin: auto; text-align: center; position: relative; top:-190px; font-size: 22px; height: 86px;">
-    <span style="font-size:64px;">Acknowledgements:</span><br />
+    <div style="padding:36px; margin: auto; opacity: 0.75; text-align: center; position: relative; top:-260px; font-size: 22px; height: 86px;">
+    <span style="font-size:32px; padding: 8px; background-color:#444444; border-width: 1px; border-style:solid; border-radius: 8px;">&nbsp;Acknowledgements:&nbsp;</span><br /><br /><br /><br />
+    <span style="padding: 8px; background-color:#444444; border-width: 1px; border-style:solid; border-radius: 8px;">
     &nbsp;<img src="image/mcdye/80c71f.png" />&nbsp;
     Envisioned by <a href="https://github.com/s5bug">s5bug</a>&nbsp;<img src="image/mcdye/b02e26.png" />&nbsp;
     Written in <a href="https://www.scala-js.org/">Scala.js</a>&nbsp;<img src="image/mcdye/5e7c16.png" />&nbsp;
@@ -107,6 +112,7 @@ a {
     Color Picker by <a href="https://github.com/ivanvmat/color-picker">Ivan Matveev</a>&nbsp;<img src="image/mcdye/3c44aa.png" />&nbsp;
     Powered by <a href="https://github.com/dragonfly-ai/bitfrost">Bitfrost</a>&nbsp;<img src="image/mcdye/fed83d.png" />&nbsp;
     <a href="https://github.com/dragonfly-ai/beacon">Source Code and Technical Information</a>&nbsp;<img src="image/mcdye/f9801d.png" />&nbsp;
+    </span>
     </div>
 </td></tr>
 </table>
@@ -119,9 +125,9 @@ function showPicker() {
     "theme": "dark",
     "use_alpha": false
   });
+  document.getElementById("sampleLabel").innerText = "Target Color:";
   picker.on('change', (color) => {
     var rgba = color.toRGBa();
-    console.log(rgba);
     searchColor(parseInt(rgba[0]), parseInt(rgba[1]), parseInt(rgba[2]));
     document.getElementById("key").replaceChildren();
   });

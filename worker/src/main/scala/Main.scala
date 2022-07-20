@@ -27,10 +27,10 @@ object Main extends App {
   private def log(s:String):Unit = println(s"Worker: $s")
 
   workerSelf.onmessage = (msg:MessageEvent) => {
-    log(s"Received ${msg.data}")
+    //log(s"Received ${msg.data}")
     msg.data match {
       case c:Int => makeBeacon(ARGB32(c))
-      //case "AWAKEN" => postMessage("I'm awake!")
+      case "AWAKEN" => // postMessage("I'm awake!")
       case _ => log(s"unknown message ${msg.data}")
     }
   }

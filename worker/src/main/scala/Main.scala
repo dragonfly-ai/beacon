@@ -7,7 +7,7 @@ import ai.dragonfly.math.vector.*
 import ai.dragonfly.spatial.PointRegionOctree
 import beacon.StainedGlassSequence
 import beacon.message.ResultsMessage
-import bridge.array.*
+import narr.*
 import scalatags.Text.all.*
 
 import java.io.{File, FileOutputStream, PrintWriter}
@@ -41,7 +41,7 @@ object Main extends App {
 
   log("Initializing ...")
 
-  val dyeColors:ARRAY[ARGB32] = ARRAY[ARGB32](
+  val dyeColors:NArray[ARGB32] = NArray[ARGB32](
     // primary:
     ARGB32(0xFF1D1D21), // Black
     ARGB32(0xFFB02E26), // Red
@@ -73,12 +73,17 @@ object Main extends App {
 
   val memoization: mutable.HashMap[ARGB32, List[ARGB32]] = mutable.HashMap[ARGB32, List[ARGB32]]()
 
-  val bfsQ: mutable.Queue[StainedGlassSequence] = mutable.Queue[StainedGlassSequence]()
+  val bfsQ: mutable.Queue[StainedGlassSequence] = {
+    val tQ: mutable.Queue[StainedGlassSequence] = mutable.Queue[StainedGlassSequence]()
 
-  for (dc <- dyeColors) { // add primary and secondary dye colors
-    val path:List[ARGB32] = List[ARGB32](dc)
-    memoization.put(dc, path)
-    bfsQ.enqueue(StainedGlassSequence(dc, path))
+    var i: Int = 0; while (i < dyeColors.length) { // add primary and secondary dye colors
+      val dc: ARGB32 = dyeColors(i)
+      val path: List[ARGB32] = List[ARGB32](dc)
+      memoization.put(dc, path)
+      tQ.enqueue(StainedGlassSequence(dc, path))
+      i += 1
+    }
+    tQ
   }
 
   log("Added primary colors.")
@@ -94,24 +99,25 @@ object Main extends App {
     for ((c: ARGB32, path: List[ARGB32]) <- memoization) {
       n += 1
       octree.insert(Lab.toVector3(Lab.fromXYZ(c.toXYZ)), path)
-      if (n % blockSize == 0) postMessage(ARRAY[js.Any]("STATUS", "OCTREE", progress))
+      if (n % blockSize == 0) postMessage(NArray[js.Any]("STATUS", "OCTREE", progress))
     }
     completed = true
-    postMessage(ARRAY[js.Any]("STATUS", "OCTREE", 1.0))
+    postMessage(NArray[js.Any]("STATUS", "OCTREE", 1.0))
     postMessage(s"COMPLETED")
   }
 
   def nextPathBlock(): Unit = {
     if (completed) {
-      postMessage(ARRAY[js.Any]("STATUS", "MEMOIZATION", 1.0))
+      postMessage(NArray[js.Any]("STATUS", "MEMOIZATION", 1.0))
       if (!stopHerds) populateOctree()
     } else {
       var bi: Int = 0
       while (bfsQ.nonEmpty && bi < blockSize) {
         val StainedGlassSequence(dc: ARGB32, path: List[ARGB32]) = bfsQ.dequeue()
 
-        for (pc <- dyeColors) {
+        var i:Int = 0; while (i < dyeColors.length) {
 
+          val pc = dyeColors(i)
           val mix: ARGB32 = ARGB32.weightedAverage(dc, 0.5, pc, 0.5)
 
           memoization.get(mix) match {
@@ -122,12 +128,13 @@ object Main extends App {
               bfsQ.enqueue(StainedGlassSequence(mix, newPath))
               n += 1
           }
+          i += 1
         }
         bi += 1
       }
 
       if (bfsQ.isEmpty) completed = true
-      else postMessage(ARRAY[js.Any]("STATUS", "MEMOIZATION", progress))
+      else postMessage(NArray[js.Any]("STATUS", "MEMOIZATION", progress))
 
       handle = setTimeout(10) { nextPathBlock() }
     }

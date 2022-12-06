@@ -1,6 +1,6 @@
 import Main.worker.postMessage
 import beacon.StainedGlassSequence
-import bridge.array.*
+import narr.*
 import org.scalajs.dom
 import org.scalajs.dom.{MessageEvent, Worker, document}
 
@@ -37,18 +37,18 @@ object Main extends App {
   object worker extends Worker("./js/worker.js") {
     this.onmessage = (msg:dom.MessageEvent) => {
       msg.data match {
-        case arr:ARRAY[_] =>
-          arr(0) match {
-            case s:String if s.equals("STATUS") => updateProgress(arr(1).asInstanceOf[String], arr(2).asInstanceOf[Double])
-            case _:Int => appendBeacon(ResultsMessage(arr.asInstanceOf[ARRAY[Int]]))
-            case _ => println(s"Unknown Array Message Payload: ${arr(0)}")
-          }
-        case s:String =>
+        case s: String =>
           if (s.equals("COMPLETED")) {
             DOMGlobals.showPicker()
             //document.getElementById("picker").removeAttribute("style")
             keepAwake()
           } else println(s"Main received: $s")
+        case arr:NArray[Int] => appendBeacon(ResultsMessage(arr))
+        case arr:js.Array[Any] =>
+          arr(0) match {
+            case s:String if s.equals("STATUS") => updateProgress(arr(1).asInstanceOf[String], arr(2).asInstanceOf[Double])
+            case _ => println(s"Unknown Array Message Payload: ${arr(0)}")
+          }
         case _ => println(s"Main received: ${msg.data}")
       }
     }

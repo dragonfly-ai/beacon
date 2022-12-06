@@ -1,15 +1,15 @@
-ThisBuild / scalaVersion := "3.1.0"
+ThisBuild / scalaVersion := "3.2.1"
 ThisBuild / publishTo := Some( Resolver.file( "file",  new File("/var/www/maven" ) ) )
 ThisBuild / resolvers += "ai.dragonfly.code" at "https://code.dragonfly.ai/"
 ThisBuild / organization := "ai.dragonfly.code"
 ThisBuild / scalacOptions ++= Seq("-feature", "-deprecation")
-ThisBuild / version := "0.01"
+ThisBuild / version := "0.02"
 
 lazy val beacon = project.enablePlugins(ScalaJSPlugin).settings(
   name := "beacon",
   libraryDependencies ++= Seq(
-    "ai.dragonfly.code" %%% "bitfrost" % "0.0.01",
-    "com.lihaoyi" %%% "scalatags" % "0.11.1"
+    "ai.dragonfly.code" %%% "bitfrost" % "0.0.02",
+    "com.lihaoyi" %%% "scalatags" % "0.12.0"
   )
 )
 

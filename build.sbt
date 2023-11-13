@@ -15,16 +15,16 @@ lazy val beacon = project.enablePlugins(ScalaJSPlugin).settings(
 
 lazy val ui = project.enablePlugins(ScalaJSPlugin).dependsOn(beacon).settings(
   name := "ui",
-  Compile / fastOptJS / artifactPath := file("./public_html/js/ui.js"),
-  Compile / fullOptJS / artifactPath := file("./public_html/js/ui.js"),
+  Compile / fastOptJS / artifactPath := file("./docs/js/ui.js"),
+  Compile / fullOptJS / artifactPath := file("./docs/js/ui.js"),
   Compile / mainClass := Some("Main"),
   scalaJSUseMainModuleInitializer := true
 )
 
 lazy val worker = project.enablePlugins(ScalaJSPlugin).dependsOn(beacon).settings(
   name := "worker",
-  Compile / fastOptJS / artifactPath := file("./public_html/js/worker.js"),
-  Compile / fullOptJS / artifactPath := file("./public_html/js/worker.js"),
+  Compile / fastOptJS / artifactPath := file("./docs/js/worker.js"),
+  Compile / fullOptJS / artifactPath := file("./docs/js/worker.js"),
   Compile / mainClass := Some("Main"),
   scalaJSUseMainModuleInitializer := true
 )

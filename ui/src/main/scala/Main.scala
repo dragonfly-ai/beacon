@@ -7,9 +7,11 @@ import org.scalajs.dom.{MessageEvent, Worker, document}
 import scala.scalajs.js
 import scala.scalajs.js.annotation.{JSExportTopLevel, JSGlobal}
 import scalatags.JsDom.all.*
-import ai.dragonfly.bitfrost.ColorContext.sRGB.{ARGB32, Lab}
+import scalatags.JsDom.all.span as SPAN
+import ai.dragonfly.uriel.ColorContext.sRGB.{ARGB32, Luv}
 import beacon.message.ResultsMessage
 
+import scala.collection.mutable
 import scala.scalajs.js.timers.{SetTimeoutHandle, setTimeout}
 
 object Main extends App {
@@ -43,10 +45,12 @@ object Main extends App {
             //document.getElementById("picker").removeAttribute("style")
             keepAwake()
           } else println(s"Main received: $s")
-        case arr:NArray[Int] => appendBeacon(ResultsMessage(arr))
+        case arr:IntArray => appendBeacon(ResultsMessage(arr.asInstanceOf[NArray[ARGB32]]))
         case arr:js.Array[Any] =>
           arr(0) match {
-            case s:String if s.equals("STATUS") => updateProgress(arr(1).asInstanceOf[String], arr(2).asInstanceOf[Double])
+            case s:String if s.equals("STATUS") =>
+              println(s"${arr(0)}, ${arr(1)}, ${arr(2)}")
+              updateProgress(arr(1).asInstanceOf[String], arr(2).asInstanceOf[Double])
             case _ => println(s"Unknown Array Message Payload: ${arr(0)}")
           }
         case _ => println(s"Main received: ${msg.data}")
@@ -77,8 +81,8 @@ object Main extends App {
   @JSExportTopLevel("searchColor")
   def searchColor(r:Int, g:Int, b:Int):Unit = {
     val temp:ARGB32 = ARGB32(r, g, b)
-    qc = temp.argb
-    sample.setAttribute("style", s"width: 180px; height: 120px; border-radius: 8px; background-color: ${temp.html()};");
+    qc = temp.asInstanceOf[Int]
+    sample.setAttribute("style", s"width: 180px; height: 120px; border-radius: 8px; background-color: ${temp.html()};")
   }
 
   val zeroProgress:ARGB32 = ARGB32(0xFFB02E26)
@@ -95,15 +99,15 @@ object Main extends App {
     s"display: inline-block; background-color: ${c.html()}; border: 1px solid var(--theme-border-color); border-radius: 50%; width: 1em; height: 1em; vertical-align: text-top;"
   }
 
-  var lastTarget:Int = ARGB32(128, 128, 128).argb
+  var lastTarget:ARGB32 = ARGB32(128, 128, 128)
 
   private def appendBeacon(sgs:ResultsMessage):Unit = {
     val tc:ARGB32 = sgs.target
-    if (lastTarget != tc.argb) {
-      lastTarget = tc.argb
+    if (lastTarget.asInstanceOf[Int] != tc.asInstanceOf[Int]) {
+      lastTarget = tc
       val result: ARGB32 = sgs.nearestMatch.approximateColor
-      val sequence: List[ARGB32] = sgs.nearestMatch.sequence
-      val reachable: Boolean = tc.argb == result.argb
+      val sequence: NArray[ARGB32] = sgs.nearestMatch.sequence.asInstanceOf[NArray[ARGB32]]
+      val reachable: Boolean = tc == result
 
       for (cn <- beaconOutput.childNodes) {
         beaconOutput.removeChild(cn)
@@ -113,12 +117,12 @@ object Main extends App {
         table(
           tr(
             td(style := "padding: 8px;", colspan := "5")(
-              span(style := "font-size: 28px;")("Results:"),
+              SPAN(style := "font-size: 28px;")("Results:"),
               br(),
               if (reachable) {
                 "✅ Exact Match"
               } else {
-                span("❌ Exact Match", br(), s"Similarity: " + f"${100.0 * ARGB32.similarity(tc, result)}%.1f%%")
+                SPAN("❌ Exact Match", br(), s"Similarity: " + f"${100.0 * ARGB32.similarity(tc, result)}%.1f%%")
               }
             )
           ),
@@ -133,7 +137,14 @@ object Main extends App {
               (0 until Math.max(10, height - sequence.size)).map(_ => br())
             ),
             td(raw("&nbsp;")),
-            td(style := "margin: auto; text-align: center; border-style: solid; border-width: 1px;")( sequence.map( c => div(span(style := colorDotScale(c))(raw("&nbsp;"), img(src := s"./image/mcdye/${c.html().substring(1)}.png")), br()) ) )
+            td(style := "margin: auto; text-align: center; border-style: solid; border-width: 1px;")(
+              (Seq[ARGB32]().appendedAll(sequence.iterator)).map(
+                c => div(
+                  SPAN(style := colorDotScale(c))(raw("&nbsp;"), img(src := s"./image/mcdye/${c.html().substring(1)}.png")),
+                  br()
+                )
+              )
+            )
           ),
         ).render
       )

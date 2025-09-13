@@ -1,15 +1,15 @@
-ThisBuild / scalaVersion := "3.2.1"
+ThisBuild / scalaVersion := "3.3.6"
 ThisBuild / publishTo := Some( Resolver.file( "file",  new File("/var/www/maven" ) ) )
-ThisBuild / resolvers += "ai.dragonfly.code" at "https://code.dragonfly.ai/"
-ThisBuild / organization := "ai.dragonfly.code"
+ThisBuild / organization := "ai.dragonfly"
+ThisBuild / organizationName := "dragonfly.ai"
 ThisBuild / scalacOptions ++= Seq("-feature", "-deprecation")
-ThisBuild / version := "0.02"
+ThisBuild / version := "0.1"
 
 lazy val beacon = project.enablePlugins(ScalaJSPlugin).settings(
   name := "beacon",
   libraryDependencies ++= Seq(
-    "ai.dragonfly.code" %%% "bitfrost" % "0.0.02",
-    "com.lihaoyi" %%% "scalatags" % "0.12.0"
+    "ai.dragonfly" %%% "uriel" % "0.1",
+    "com.lihaoyi" %%% "scalatags" % "0.13.1"
   )
 )
 
@@ -28,3 +28,5 @@ lazy val worker = project.enablePlugins(ScalaJSPlugin).dependsOn(beacon).setting
   Compile / mainClass := Some("Main"),
   scalaJSUseMainModuleInitializer := true
 )
+
+lazy val root = beacon.settings(name := "beacon")

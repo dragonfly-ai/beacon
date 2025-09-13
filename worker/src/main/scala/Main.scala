@@ -1,33 +1,38 @@
-import ai.dragonfly.bitfrost.ColorContext.sRGB.{ARGB32, Lab}
-import ai.dragonfly.bitfrost.color.model.rgb.discrete
-import ai.dragonfly.math.squareInPlace
-import ai.dragonfly.math.stats.DenseHistogramOfContinuousDistribution
-import ai.dragonfly.math.stats.probability.distributions.stream.StreamingVectorStats
-import ai.dragonfly.math.vector.*
-import ai.dragonfly.spatial.PointRegionOctree
+import ai.dragonfly.uriel.ColorContext.sRGB.{ARGB32, Luv}
+import slash.squareInPlace
+import slash.vector.*
+import ai.dragonfly.spatial.PROctreeMap //PointRegionOctree
 import beacon.StainedGlassSequence
 import beacon.message.ResultsMessage
 import narr.*
 import scalatags.Text.all.*
 
-import java.io.{File, FileOutputStream, PrintWriter}
-import scala.::
 import scala.collection.mutable
+import scala.language.implicitConversions
 import scala.language.postfixOps
 import org.scalajs.dom
 import org.scalajs.dom.MessageEvent
 import org.scalajs.dom.DedicatedWorkerGlobalScope.self as workerSelf
 
 import scala.scalajs.js
-import scala.scalajs.js.annotation.{JSExportTopLevel, JSGlobal}
 import scala.scalajs.js.timers.{SetTimeoutHandle, setTimeout}
 
+/*
+This needs EITHER an octree and a hashmap, or just an octreemap, not an octreemap and an hashmap.
+ */
+
 object Main extends App {
+
+  given Conversion[IntArray, NArray[ARGB32]] with
+    inline def apply(ia: IntArray): NArray[ARGB32] = ia.asInstanceOf[NArray[ARGB32]]
+
+  given Conversion[NArray[ARGB32], IntArray] with
+    inline def apply(ca: NArray[ARGB32]): IntArray = ca.asInstanceOf[IntArray]
 
   private def log(s:String):Unit = println(s"Worker: $s")
 
   workerSelf.onmessage = (msg:MessageEvent) => {
-    //log(s"Received ${msg.data}")
+    log(s"Received ${msg.data}")
     msg.data match {
       case c:Int => makeBeacon(ARGB32(c))
       case "AWAKEN" => // postMessage("I'm awake!")
@@ -37,7 +42,7 @@ object Main extends App {
 
   inline private def postMessage(data: js.Any): Unit = workerSelf.postMessage(data)
 
-  postMessage("I, the worker, have started!")
+  postMessage("Ready to work!")
 
   log("Initializing ...")
 
@@ -66,19 +71,20 @@ object Main extends App {
 
   var n:Int = 0
 
-  def progress:Double = squareInPlace(n.toDouble / N.toDouble)
+  def progress:Double = squareInPlace( n.toDouble / N.toDouble )
   var completed:Boolean = false
 
-  val octree: PointRegionOctree[List[ARGB32]] = new PointRegionOctree[List[ARGB32]](128, Vector3(127.5, 127.5, 127.5), 16, 4, 10)
+  //val octree: PROctreeMap[IntArray] = new PROctreeMap[IntArray]( 128, Vec[3](127.5, 127.5, 127.5), 64 )
+  val octree: PROctreeMap[ARGB32] = new PROctreeMap[ARGB32]( 400, Vec[3](9.565747360311072, -0.9330505612074277, 60.28835951296638), 64 )
 
-  val memoization: mutable.HashMap[ARGB32, List[ARGB32]] = mutable.HashMap[ARGB32, List[ARGB32]]()
+  val memoization: mutable.HashMap[ARGB32, NArray[ARGB32]] = mutable.HashMap[ARGB32, NArray[ARGB32]]()
 
   val bfsQ: mutable.Queue[StainedGlassSequence] = {
     val tQ: mutable.Queue[StainedGlassSequence] = mutable.Queue[StainedGlassSequence]()
 
     var i: Int = 0; while (i < dyeColors.length) { // add primary and secondary dye colors
       val dc: ARGB32 = dyeColors(i)
-      val path: List[ARGB32] = List[ARGB32](dc)
+      val path: NArray[ARGB32] = NArray.fill[ARGB32](1)(dc)
       memoization.put(dc, path)
       tQ.enqueue(StainedGlassSequence(dc, path))
       i += 1
@@ -96,14 +102,15 @@ object Main extends App {
   def populateOctree(): Unit = {
     stopHerds = true
     n = 0
-    for ((c: ARGB32, path: List[ARGB32]) <- memoization) {
+    for ((c: ARGB32, path: NArray[ARGB32]) <- memoization) {
       n += 1
-      octree.insert(Lab.toVector3(Lab.fromXYZ(c.toXYZ)), path)
+      octree.insert(Luv.toVec(Luv.fromXYZ(c.toXYZ)), c)
       if (n % blockSize == 0) postMessage(NArray[js.Any]("STATUS", "OCTREE", progress))
     }
     completed = true
     postMessage(NArray[js.Any]("STATUS", "OCTREE", 1.0))
     postMessage(s"COMPLETED")
+    log(s"octree.size = ${octree.size}")
   }
 
   def nextPathBlock(): Unit = {
@@ -113,17 +120,19 @@ object Main extends App {
     } else {
       var bi: Int = 0
       while (bfsQ.nonEmpty && bi < blockSize) {
-        val StainedGlassSequence(dc: ARGB32, path: List[ARGB32]) = bfsQ.dequeue()
+        val StainedGlassSequence(dc: ARGB32, path: NArray[ARGB32]) = bfsQ.dequeue()
 
         var i:Int = 0; while (i < dyeColors.length) {
 
-          val pc = dyeColors(i)
-          val mix: ARGB32 = ARGB32.weightedAverage(dc, 0.5, pc, 0.5)
+          val pc:ARGB32 = dyeColors(i)
+          val mix:ARGB32 = ARGB32.weightedAverage(dc, 0.5, pc, 0.5)
 
           memoization.get(mix) match {
-            case Some(oldPath: List[ARGB32]) if oldPath.size <= path.size + 1 => // keep old path
+            case Some(oldPath: IntArray) if oldPath.size <= path.size + 1 => // keep old path
             case _ =>
-              val newPath: List[ARGB32] = pc :: path
+              val newPath: IntArray = NArray.ofSize[Int](1 + path.size)
+              newPath(0) = pc
+              NArray.copy[Int](path, newPath, 1)
               memoization.put(mix, newPath)
               bfsQ.enqueue(StainedGlassSequence(mix, newPath))
               n += 1
@@ -144,14 +153,32 @@ object Main extends App {
 
   def makeBeacon(target: ARGB32): Unit = {
     if (completed) {
+      log(s"makeBeacon(${target.render})")
+
       postMessage(
         (memoization.get(target) match {
-          case Some(path: List[ARGB32]) => ResultsMessage(target, StainedGlassSequence(target, path))
-          case None =>
-            //log(s"memoization.size = ${memoization.size}")
-            octree.nearestNeighbor(Lab.toVector3(Lab.fromXYZ(target.toXYZ))) match {
-              case Some((nn: Vector3, path: List[ARGB32])) => ResultsMessage(target, StainedGlassSequence(ARGB32.fromXYZ(Lab.fromVector3(nn).toXYZ), path))
-              case _ => throw Exception("empty octree or octree bug?")
+          case Some(path: IntArray) =>
+            log(s"Exact match: $path")
+            ResultsMessage(target, StainedGlassSequence(target, path))
+          case _ =>
+            log(s"memoization.size = ${memoization.size}")
+            octree.nearestNeighbor(Luv.toVec(Luv.fromXYZ(target.toXYZ))) match {
+              case (nn: Vec[3], c: ARGB32) =>
+                memoization.get(c) match {
+                  case Some(path: NArray[ARGB32]) =>
+                    log(s"${nn.render()}, $path")
+                    // FF7DD3
+                    val sgs = StainedGlassSequence(ARGB32.fromXYZ(Luv.fromVec(nn).toXYZ), path)
+                    log(s"StainedGlassSequence(ARGB32.fromXYZ(Luv.fromVec(nn).toXYZ), path) $sgs")
+                    ResultsMessage(target, sgs)
+                  case _ =>
+                    log(s"No path for ${c.render}")
+                    throw Exception("empty octree or octree bug?")
+                }
+
+              case _ =>
+                log("empty octree or octree bug?")
+                throw Exception("empty octree or octree bug?")
             }
         }).serialize
       )

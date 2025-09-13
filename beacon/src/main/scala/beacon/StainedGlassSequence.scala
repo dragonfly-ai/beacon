@@ -1,28 +1,22 @@
 package beacon
 
-import ai.dragonfly.bitfrost.ColorContext.sRGB.ARGB32
+import ai.dragonfly.uriel.ColorContext.sRGB.ARGB32
 import narr.*
 
 object StainedGlassSequence {
 
-  def apply(serialized: NArray[Int]):StainedGlassSequence = StainedGlassSequence(
-    ARGB32(serialized.head),
-    List[ARGB32]() :++ serialized.tail.map((i:Int) => ARGB32(i))
+  def apply(serialized: NArray[ARGB32]):StainedGlassSequence = StainedGlassSequence(
+    serialized(0),
+    serialized.slice(1, serialized.length)
   )
 
 }
 
-case class StainedGlassSequence(approximateColor:ARGB32, sequence:List[ARGB32]) {
-  def serialize:NArray[Int] = {
-    val out = new NArray[Int](sequence.size + 1)
-    out(0) = approximateColor.argb
-    var tail:List[ARGB32] = sequence
-    var i:Int = 1
-    while (tail.nonEmpty) {
-      out(i) = tail.head.argb
-      tail = tail.tail
-      i += 1
-    }
+case class StainedGlassSequence(approximateColor:ARGB32, sequence:NArray[ARGB32]) {
+  def serialize:NArray[ARGB32] = {
+    val out = NArray.ofSize[ARGB32](sequence.size + 1)
+    out(0) = approximateColor
+    NArray.copy[ARGB32](sequence, out, 1)
     out
   }
 }

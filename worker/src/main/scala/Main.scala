@@ -1,7 +1,7 @@
 import ai.dragonfly.uriel.ColorContext.sRGB.{ARGB32, Luv}
 import slash.squareInPlace
 import slash.vector.*
-import ai.dragonfly.spatial.PROctreeMap //PointRegionOctree
+import ai.dragonfly.spatial.PROctree
 import beacon.StainedGlassSequence
 import beacon.message.ResultsMessage
 import narr.*
@@ -22,6 +22,12 @@ This needs EITHER an octree and a hashmap, or just an octreemap, not an octreema
  */
 
 object Main extends App {
+
+  given Conversion[ARGB32, Vec[3]] with
+    inline def apply(argb: ARGB32): Vec[3] = Luv.toVec(Luv.fromXYZ(argb.toXYZ))
+
+  given Conversion[Vec[3], ARGB32] with
+    inline def apply(v:Vec[3]): ARGB32 = ARGB32.fromRGB(Luv.fromVec(v).toRGB)
 
   given Conversion[IntArray, NArray[ARGB32]] with
     inline def apply(ia: IntArray): NArray[ARGB32] = ia.asInstanceOf[NArray[ARGB32]]
@@ -75,7 +81,7 @@ object Main extends App {
   var completed:Boolean = false
 
   //val octree: PROctreeMap[IntArray] = new PROctreeMap[IntArray]( 128, Vec[3](127.5, 127.5, 127.5), 64 )
-  val octree: PROctreeMap[ARGB32] = new PROctreeMap[ARGB32]( 400, Vec[3](9.565747360311072, -0.9330505612074277, 60.28835951296638), 64 )
+  val octree: PROctree = new PROctree( 400, Vec[3](9.565747360311072, -0.9330505612074277, 60.28835951296638), 64 )
 
   val memoization: mutable.HashMap[ARGB32, NArray[ARGB32]] = mutable.HashMap[ARGB32, NArray[ARGB32]]()
 
@@ -104,7 +110,7 @@ object Main extends App {
     n = 0
     for ((c: ARGB32, path: NArray[ARGB32]) <- memoization) {
       n += 1
-      octree.insert(Luv.toVec(Luv.fromXYZ(c.toXYZ)), c)
+      octree.insert(c)
       if (n % blockSize == 0) postMessage(NArray[js.Any]("STATUS", "OCTREE", progress))
     }
     completed = true
@@ -163,7 +169,8 @@ object Main extends App {
           case _ =>
             log(s"memoization.size = ${memoization.size}")
             octree.nearestNeighbor(Luv.toVec(Luv.fromXYZ(target.toXYZ))) match {
-              case (nn: Vec[3], c: ARGB32) =>
+              case (nn: Vec[3]) =>
+                val c: ARGB32 = nn
                 memoization.get(c) match {
                   case Some(path: NArray[ARGB32]) =>
                     log(s"${nn.render()}, $path")

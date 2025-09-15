@@ -18,7 +18,7 @@ then making them searchable by storing them in a spacial datastructure called an
 
 The following table shows the percentage contributions of each color in a stained glass sequence; the max sequence length is 21 because any colors you can get with sequences longer than 21 blocks can be obtained with a shorter sequence.
 
-<table style="font-size:12px;">
+<table style="font-size:10px;">
 <tr><td>Stained Glass Levels</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td><td>21</td></tr>
 <tr><td>Color 1</td><td>100.0%</td><td>50.0%</td><td>50.0%</td><td>50.0%</td><td>50.0%</td><td>50.0%</td><td>50.0%</td><td>50.0%</td><td>50.0%</td><td>50.0%</td><td>50.0%</td><td>50.0%</td><td>50.0%</td><td>50.0%</td><td>50.0%</td><td>50.0%</td><td>50.0%</td><td>50.0%</td><td>50.0%</td><td>50.0%</td><td>50.0%</td></tr>
 <tr><td>Color 2</td><td> </td><td>50.0%</td><td>25.0%</td><td>25.0%</td><td>25.0%</td><td>25.0%</td><td>25.0%</td><td>25.0%</td><td>25.0%</td><td>25.0%</td><td>25.0%</td><td>25.0%</td><td>25.0%</td><td>25.0%</td><td>25.0%</td><td>25.0%</td><td>25.0%</td><td>25.0%</td><td>25.0%</td><td>25.0%</td><td>25.0%</td></tr>
@@ -45,7 +45,7 @@ The following table shows the percentage contributions of each color in a staine
 
 As you can see, the farther down the column, the more negligible the percentage, so in sequences deeper than 21 blocks, the lowest colors have no meaningful effect on the colors.
 
-#Acknowledgements:
+# Acknowledgements:
 
 This project, written in [Scala.js](https://www.scala-js.org/), makes good use of the Scala color science library [Uriel](https://github.com/dragonfly-ai/uriel), the Octree from [Spatial](https://github.com/dragonfly-ai/spatial), vector math from [S.L.A.S.H.](https://github.com/dragonfly-ai/slash), and native arrays from [NArr](https://github.com/dragonfly-ai/narr).
 

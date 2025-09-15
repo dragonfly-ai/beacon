@@ -17,10 +17,6 @@ import org.scalajs.dom.DedicatedWorkerGlobalScope.self as workerSelf
 import scala.scalajs.js
 import scala.scalajs.js.timers.{SetTimeoutHandle, setTimeout}
 
-/*
-This needs EITHER an octree and a hashmap, or just an octreemap, not an octreemap and an hashmap.
- */
-
 object Main extends App {
 
   given Conversion[ARGB32, Vec[3]] with
@@ -98,6 +94,8 @@ object Main extends App {
     tQ
   }
 
+  var maxPathLength = 0
+
   log("Added primary colors.")
   val blockSize:Int = 100000
 
@@ -140,6 +138,10 @@ object Main extends App {
               newPath(0) = pc
               NArray.copy[Int](path, newPath, 1)
               memoization.put(mix, newPath)
+              if (newPath.length > maxPathLength) {
+                maxPathLength = newPath.length
+                log(s"New Max Path Length: $maxPathLength")
+              }
               bfsQ.enqueue(StainedGlassSequence(mix, newPath))
               n += 1
           }

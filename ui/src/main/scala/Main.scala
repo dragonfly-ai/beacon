@@ -14,6 +14,10 @@ import beacon.message.ResultsMessage
 import scala.collection.mutable
 import scala.scalajs.js.timers.{SetTimeoutHandle, setTimeout}
 
+/*
+Show the color!  Hex and RGB.
+ */
+
 object Main extends App {
 
   object DOMGlobals {
@@ -120,10 +124,12 @@ object Main extends App {
               SPAN(style := "font-size: 28px;")("Results:"),
               br(),
               if (reachable) {
-                "✅ Exact Match"
+                s"✅ Exact Match"
               } else {
                 SPAN("❌ Exact Match", br(), s"Similarity: " + f"${100.0 * ARGB32.similarity(tc, result)}%.1f%%")
-              }
+              },
+              br(),
+              "RGB: ", SPAN(style := "color:#FF0000")(result.red), ", ", SPAN(style := "color:#00FF00")(result.green), ", ", SPAN(style := "color:#0000FF")(result.blue), br(), s"HTML: ${result.html()}"
             )
           ),
           tr(

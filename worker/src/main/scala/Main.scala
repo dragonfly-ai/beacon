@@ -1,7 +1,7 @@
 import ai.dragonfly.uriel.ColorContext.sRGB.{ARGB32, Luv}
 import slash.squareInPlace
-import slash.vector.*
-import ai.dragonfly.spatial.PROctree
+import slash.vectorf.*
+import ai.dragonfly.spatial.PROctreeF
 import beacon.StainedGlassSequence
 import beacon.message.ResultsMessage
 import narr.*
@@ -19,11 +19,11 @@ import scala.scalajs.js.timers.{SetTimeoutHandle, setTimeout}
 
 object Main extends App {
 
-  given Conversion[ARGB32, Vec[3]] with
-    inline def apply(argb: ARGB32): Vec[3] = Luv.toVec(Luv.fromXYZ(argb.toXYZ))
+  given Conversion[ARGB32, VecF[3]] with
+    inline def apply(argb: ARGB32): VecF[3] = Luv.toVec(Luv.fromXYZ(argb.toXYZ))
 
-  given Conversion[Vec[3], ARGB32] with
-    inline def apply(v:Vec[3]): ARGB32 = ARGB32.fromRGB(Luv.fromVec(v).toRGB)
+  given Conversion[VecF[3], ARGB32] with
+    inline def apply(v:VecF[3]): ARGB32 = ARGB32.fromRGB(Luv.fromVec(v).toRGB)
 
   given Conversion[IntArray, NArray[ARGB32]] with
     inline def apply(ia: IntArray): NArray[ARGB32] = ia.asInstanceOf[NArray[ARGB32]]
@@ -76,8 +76,8 @@ object Main extends App {
   def progress:Double = squareInPlace( n.toDouble / N.toDouble )
   var completed:Boolean = false
 
-  //val octree: PROctreeMap[IntArray] = new PROctreeMap[IntArray]( 128, Vec[3](127.5, 127.5, 127.5), 64 )
-  val octree: PROctree = new PROctree( 400, Vec[3](9.565747360311072, -0.9330505612074277, 60.28835951296638), 64 )
+  //val octree: PROctreeFMap[IntArray] = new PROctreeFMap[IntArray]( 128, VecF[3](127.5, 127.5, 127.5), 64 )
+  val octree: PROctreeF = new PROctreeF( 400, VecF[3](9.565747360311072f, -0.9330505612074277f, 60.28835951296638f), 64 )
 
   val memoization: mutable.HashMap[ARGB32, NArray[ARGB32]] = mutable.HashMap[ARGB32, NArray[ARGB32]]()
 
@@ -108,7 +108,13 @@ object Main extends App {
     n = 0
     for ((c: ARGB32, path: NArray[ARGB32]) <- memoization) {
       n += 1
-      octree.insert(c)
+      try {
+        octree.insert(c)
+      } catch {
+        case t: Exception =>
+          println(s"Couldn't insert ${c.render()}")
+          println(t)
+      }
       if (n % blockSize == 0) postMessage(NArray[js.Any]("STATUS", "OCTREE", progress))
     }
     completed = true
@@ -129,7 +135,7 @@ object Main extends App {
         var i:Int = 0; while (i < dyeColors.length) {
 
           val pc:ARGB32 = dyeColors(i)
-          val mix:ARGB32 = ARGB32.weightedAverage(dc, 0.5, pc, 0.5)
+          val mix:ARGB32 = ARGB32.weightedAverage(dc, 0.5f, pc, 0.5f)
 
           memoization.get(mix) match {
             case Some(oldPath: IntArray) if oldPath.size <= path.size + 1 => // keep old path
@@ -171,7 +177,7 @@ object Main extends App {
           case _ =>
             log(s"memoization.size = ${memoization.size}")
             octree.nearestNeighbor(Luv.toVec(Luv.fromXYZ(target.toXYZ))) match {
-              case (nn: Vec[3]) =>
+              case (nn: VecF[3]) =>
                 val c: ARGB32 = nn
                 memoization.get(c) match {
                   case Some(path: NArray[ARGB32]) =>

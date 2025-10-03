@@ -8,7 +8,7 @@ ThisBuild / version := "0.1"
 lazy val beacon = project.enablePlugins(ScalaJSPlugin).settings(
   name := "beacon",
   libraryDependencies ++= Seq(
-    "ai.dragonfly" %%% "uriel" % "0.11",
+    "ai.dragonfly" %%% "uriel" % "0.12",
     "com.lihaoyi" %%% "scalatags" % "0.13.1"
   )
 )

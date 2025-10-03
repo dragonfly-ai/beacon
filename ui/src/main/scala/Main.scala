@@ -54,7 +54,7 @@ object Main extends App {
           arr(0) match {
             case s:String if s.equals("STATUS") =>
               println(s"${arr(0)}, ${arr(1)}, ${arr(2)}")
-              updateProgress(arr(1).asInstanceOf[String], arr(2).asInstanceOf[Double])
+              updateProgress(arr(1).asInstanceOf[String], arr(2).asInstanceOf[Float])
             case _ => println(s"Unknown Array Message Payload: ${arr(0)}")
           }
         case _ => println(s"Main received: ${msg.data}")
@@ -91,12 +91,12 @@ object Main extends App {
 
   val zeroProgress:ARGB32 = ARGB32(0xFFB02E26)
   val finishedProgress:ARGB32 = ARGB32(0xFF80C71F)
-  private def updateProgress(flag:String, p:Double):Unit = if (flag.equals("MEMOIZATION")){
+  private def updateProgress(flag:String, p:Float):Unit = if (flag.equals("MEMOIZATION")){
     memoizationProgress.innerHTML = f"${100.0 * p}%.2f"
-    memoizationProgress.setAttribute("style", s"color: ${ARGB32.weightedAverage(zeroProgress, 1.0 - p, finishedProgress, p).html()}")
+    memoizationProgress.setAttribute("style", s"color: ${ARGB32.weightedAverage(zeroProgress, 1f - p, finishedProgress, p).html()}")
   } else {
     octreeProgress.innerHTML = f"${100.0 * p}%.2f"
-    octreeProgress.setAttribute("style", s"color: ${ARGB32.weightedAverage(zeroProgress, 1.0 - p, finishedProgress, p).html()}")
+    octreeProgress.setAttribute("style", s"color: ${ARGB32.weightedAverage(zeroProgress, 1f - p, finishedProgress, p).html()}")
   }
 
   private def colorDotScale(c:ARGB32):String = {

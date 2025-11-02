@@ -20,7 +20,7 @@ import scala.scalajs.js.timers.{SetTimeoutHandle, setTimeout}
 object Main extends App {
 
   given Conversion[ARGB32, VecF[3]] with
-    inline def apply(argb: ARGB32): VecF[3] = Luv.toVec(Luv.fromXYZ(argb.toXYZ))
+    inline def apply(argb: ARGB32): VecF[3] = Luv.fromXYZ(argb.toXYZ).vec
 
   given Conversion[VecF[3], ARGB32] with
     inline def apply(v:VecF[3]): ARGB32 = ARGB32.fromRGB(Luv.fromVec(v).toRGB)
@@ -176,8 +176,8 @@ object Main extends App {
             ResultsMessage(target, StainedGlassSequence(target, path))
           case _ =>
             log(s"memoization.size = ${memoization.size}")
-            octree.nearestNeighbor(Luv.toVec(Luv.fromXYZ(target.toXYZ))) match {
-              case (nn: VecF[3]) =>
+            octree.nearestNeighbor(Luv.fromXYZ(target.toXYZ).vec) match {
+              case nn: VecF[3] =>
                 val c: ARGB32 = nn
                 memoization.get(c) match {
                   case Some(path: NArray[ARGB32]) =>
